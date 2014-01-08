@@ -23,22 +23,25 @@ def mousemove(posx,posy):
         mouseEvent(kCGEventMouseMoved, posx,posy);
 
 def mouseclick(posx,posy):
-        mouseEvent(kCGEventMouseMoved, posx,posy);
-        mouseEvent(kCGEventLeftMouseDown, posx,posy);
+        #mouseEvent(kCGEventMouseMoved, posx,posy);
+        mouseEvent(kCGEventLeftMouseDown, posx,posy)
         mouseEvent(kCGEventLeftMouseUp, posx,posy)
 
 def main():
 	controller = Leap.Controller()
+	controller.enable_gesture(Leap.Gesture.TYPE_SCREEN_TAP);
 	mainMonitor = CGDisplayBounds(CGMainDisplayID())
-	FPS = 30
+	FPS = 50
 	FARLEFT = -300
 	FARRIGHT = 300
-	TOP = 600
-	BOTTOM = 200
+	TOP = 500
+	BOTTOM = 100
+	BACKGROUND = -15
 	SCREENWIDTH = mainMonitor.size.width
 	SCREENHEIGHT = mainMonitor.size.height
 	
 	last_time = time.time()
+	touched = False
 	
 	while True:
 		new_time = time.time()
@@ -58,6 +61,17 @@ def main():
 				posx = (SCREENWIDTH)/(FARRIGHT-FARLEFT)*(avg_pos[0]-FARLEFT)
 				posy = (SCREENHEIGHT)/(BOTTOM-TOP)*(avg_pos[1]-TOP)
 				mousemove(posx,posy)
+				if avg_pos[2] < BACKGROUND:
+					if touched == False:
+						mouseEvent(kCGEventLeftMouseDown, posx,posy)
+						touched = True
+				else:
+					mouseEvent(kCGEventLeftMouseUp, posx,posy)
+					touched = False
+#				for gesture in frame.gestures():
+#					if gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
+#						mouseclick(posx,posy)
+					
 
 if __name__ == "__main__":
     main()

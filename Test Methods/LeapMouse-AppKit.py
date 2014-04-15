@@ -1,43 +1,12 @@
 import Leap
-from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
-from Quartz.CoreGraphics import CGEventCreateMouseEvent
-from Quartz.CoreGraphics import CGEventPost
-from Quartz.CoreGraphics import kCGEventMouseMoved
-from Quartz.CoreGraphics import kCGEventLeftMouseDown
-from Quartz.CoreGraphics import kCGEventLeftMouseUp
-from Quartz.CoreGraphics import kCGMouseButtonLeft
-from Quartz.CoreGraphics import kCGHIDEventTap
-from Quartz import CGDisplayBounds
-from Quartz import CGMainDisplayID
 import time
-
-def mouseEvent(type, posx, posy):
-        theEvent = CGEventCreateMouseEvent(
-                    None, 
-                    type, 
-                    (posx,posy), 
-                    kCGMouseButtonLeft)
-        CGEventPost(kCGHIDEventTap, theEvent)
-
-def mousemove(posx,posy):
-        mouseEvent(kCGEventMouseMoved, posx,posy);
-
-def mouseclick(posx,posy):
-        #mouseEvent(kCGEventMouseMoved, posx,posy);
-        mouseEvent(kCGEventLeftMouseDown, posx,posy)
-        mouseEvent(kCGEventLeftMouseUp, posx,posy)
+from AppKit import *
 
 def main():
 	controller = Leap.Controller()
-	controller.enable_gesture(Leap.Gesture.TYPE_SCREEN_TAP);
-	mainMonitor = CGDisplayBounds(CGMainDisplayID())
-#	err, ids, count = CGGetOnlineDisplayList(10,None,None)
-#	WIDTH = 0
-#	HEIGHT = 0
-#	for id in ids:
-#		monitor = CGDisplayBounds(id)
-#		WIDTH += monitor.size.width
-#		HEIGHT += monitor.size.height
+	screens = NSScreen.screens()
+	for s in screens:
+		
 		
 	FPS = 50
 	FARLEFT = -300

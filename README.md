@@ -10,7 +10,7 @@ Goals:
 - Add more gestures (such as two finger click as right click)
 
 
-=========
+---------
 
 Usefull Links:
 
